@@ -1,1 +1,108 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~ngx-toastr/toastr.css';  
+
+body{
+    /* overflow-y: hidden;  */
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-color: #eae3e3 !important;
+    font-family: 'Crimson Pro', serif !important;
+    }
+.sidenavbar{
+    background: #0057fa;
+    
+}
+select {
+    -webkit-appearance:slider-vertical !important;
+    /*webkit browsers */
+    -moz-appearance: none;
+    /*Firefox */
+    appearance:initial;
+    /* modern browsers */
+    border-radius: 0;
+  
+  }
+.brand{
+    margin-top: 12px;
+    color: orange !important;
+    font-size: 24px;
+    font-weight: 900;
+    font-family: cursive;
+}
+.nav-link fa-icon{
+    color: orange;
+    font-weight: 900;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-right: 8px;
+}
+.nav-link.active{
+   background-color: white !important;
+    border-bottom-left-radius: 30px !important;
+    border-top-left-radius: 30px !important;
+    border-bottom-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    color:  #0057fa !important;
+    margin-right: -5px !important;
+   
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+
+}
+.nav-link{
+    margin: 10px;
+    margin-left: 20px !important;
+    color: white !important;
+    text-align: left !important;
+    font-size: 20px;
+    font-weight: 700 !important;
+    align-items: flex-end !important;
+}
+.rowHeader{
+    padding-top: 17px;
+    margin-left: -15px !important;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%) !important;
+    background-color: white;
+}
+.rowHeader fa-icon{
+    color: #0057fa !important;
+    font-size: 30px;
+    font-weight: 500 !important;
+}
+.open{
+    display: block !important;
+}
+.tabs{
+    display: none;
+}
+
+.mycard{
+    padding: 10px;
+    min-height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btnn-warning {
+    font-family: Raleway-SemiBold !important;
+    font-size: 13px !important;
+    color: #0057fa !important;
+    letter-spacing: 1px !important;
+    line-height: 15px;
+    border: 2px solid #0057fa !important;
+    border-radius: 40px !important;
+    background: transparent !important ;
+    transition: all 0.3s ease 0s !important;
+  }
+  
+  .btnn-warning:hover {
+    color: #FFF !important;
+    background:#0057fa !important;
+    border: 2px solid #0057fa !important;
+  }
+  .dropdown-item:hover{
+    background-color: #0057fa !important;
+  }
+  .toast:not(.show) {
+    display: block !important;
+}

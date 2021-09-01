@@ -1,0 +1,235 @@
+<div *ngIf="isAddCategory">
+    <h2 class=" text-center font-weight-bold" style="margin-bottom:20px">
+        Add Category
+    </h2>
+    <div class="row">
+        <div class="col-4">
+           
+        </div>
+        <div class="col-4">
+            
+            <div class="card" style="padding: 20px;">
+                <div class="form-horizontal center" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="product_Type">Category Name</label>
+                        <input type="text" class="form-control" id="product_Type" required [(ngModel)]="insertCategory.product_Type" #product_Type="ngModel" >
+                    </div>
+                </div>
+                <div *ngIf="product_Type.invalid && (product_Type.dirty || product_Type.touched)" >
+                        <div *ngIf="product_Type.errors?.required" class="alert alert-danger">Please enter Category</div>
+                </div>
+                
+                
+                <div class="form-horizontal center" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" required [(ngModel)]="insertCategory.description" #categoryDescription="ngModel" >
+                    </div>
+                </div>
+                
+               
+                <div *ngIf="product_Type.valid" class="form-group row" style="margin-top: 20px;">
+                    <div class="col-4"></div>
+                    <input type="submit" value="Add" class="center btn btn-success col-4" (click)="Add()">
+                    <div class="col-4"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isViewCategory" class="table-responsive">
+    <table class="table table-striped">
+        <tr class="text-light" style="background-color: orange;">
+            <th style="padding: 10px !important">
+                S.no
+            </th>
+            <th>
+                 Id
+            </th>
+            <th>
+                 Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Updated By
+            </th>
+            <th>
+                isActive
+            </th>
+            <th>
+                LastUpdate TimeStamp
+            </th>
+            <th>
+                Action
+            </th>
+            
+            
+            
+        </tr>
+
+        <tr *ngIf="allCategories.length==0; else hasData"  >
+            <td colspan="8" class="text-center p-3 text-danger">No data found</td>
+        </tr>
+        <ng-template #hasData>
+            <tr  *ngFor="let item of allCategories |  paginate: { itemsPerPage: count, currentPage: p }" style="margin: 10px;">
+                <td style="padding: 10px !important">
+                    {{allCategories.indexOf(item)+1}}
+                </td>
+                <td>
+                    {{item.id}}
+                </td>
+                <td>
+                    {{item.product_Type}}
+                </td>
+                <td>
+                    {{item.description}}
+                </td>
+                <td>
+                    {{item.updated_By}}
+                </td>
+                <td *ngIf="item.isActive; else NotActive">
+                   <div>Active</div>
+                </td>
+                <ng-template #NotActive>
+                    <td>
+                        <div>Not Active</div>
+                    </td>
+                </ng-template>
+                
+                <td>
+                    {{item.lastUpdateDate | date}}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" (click)="edit(item.id)" data-toggle="modal" data-target="#editModal"><fa-icon [icon]="faEdit"></fa-icon></button>
+                        <button type="button" class="btn btn-danger" (click)="delete(item.id)" data-toggle="modal" data-target="#deleteModal" ><fa-icon [icon]="faTrash"></fa-icon></button>
+
+                        <button type="button" class="btn btn-primary" (click)="viewsubCategory(item.id)" data-toggle="modal" data-target="#ViewSubCategoryModal" ><fa-icon [icon]="faList" style="margin-right: 5px;"></fa-icon> Sub Categories</button>
+                    </div>
+                </td>
+                
+
+                
+            </tr>
+        </ng-template>
+           
+       
+            
+    </table>
+    <div class="text-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>
+<div *ngIf="isSubcategories">
+    <div class="modal fade" id="ViewSubCategoryModal" tabindex="-1" role="dialog" aria-labelledby="ViewSubCategoryLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ViewSubCategoryLabel">Sub Categories </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group list-group-flush" *ngFor="let x of SubCategories">
+                    <li *ngIf="SubCategories.length==0" class="list-group-item">
+                        No Sub Categories found
+                    </li>
+                    <li *ngIf="SubCategories.length!=0" class="list-group-item">{{x.product_sub_Type}}</li>
+                    
+                  </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+<div *ngIf="isEdit">
+    
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal center" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="product_Type">Category Name</label>
+                        <input type="text" class="form-control" id="product_Type" required [(ngModel)]="editCategory.product_Type" #product_Type="ngModel" >
+                    </div>
+                </div>
+                <div *ngIf="product_Type.invalid && (product_Type.dirty || product_Type.touched)" >
+                        <div *ngIf="product_Type.errors?.required" class="alert alert-danger">Please enter Category</div>
+                </div>
+                
+                
+                <div class="form-horizontal center" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" required [(ngModel)]="editCategory.description" #categoryDescription="ngModel" >
+                    </div>
+                </div>
+                
+               
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <input *ngIf="product_Type.valid" type="submit" value="Save" class="center btn btn-warning " (click)="Edit()" data-dismiss="modal">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+
+</div>
+<div *ngIf="isDelete">
+    
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Delete Category</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal center" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="product_Type">Category Name</label>
+                        <input type="text" class="form-control" id="product_Type" required [(ngModel)]="deleteCategory.product_Type" readonly>
+                    </div>
+                </div>
+               
+                
+                
+                <div class="form-horizontal center" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" class="form-control" id="description" required [(ngModel)]="deleteCategory.description" readonly >
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <input type="submit" value="Delete" class="center btn btn-danger" (click)="Delete()" data-dismiss="modal">
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'AdminPanel';
+  isLoggedIn: boolean = false;
+  constructor(){
+    if(sessionStorage.getItem('isLoggedIn')){
+      this.isLoggedIn=true;
+    }
+  }
 }

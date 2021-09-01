@@ -1,0 +1,337 @@
+<div *ngIf="isAddProduct">
+    <div class="row">
+        <div class="col-4">
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="ProductName"> Product Name</label>
+                    <input type="text" class="form-control" id="ProductName" required [(ngModel)]="insertProduct.productName" #ProductName="ngModel" >
+                </div>
+            </div>
+            <div *ngIf="ProductName.invalid && (ProductName.dirty || ProductName.touched)" >
+                    <div *ngIf="ProductName.errors?.required" class="alert alert-danger">Please enter Product Name</div>
+            </div>
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="CategoryType">Choose Category</label>
+                    <select id="CategoryType" class="form-control"  [(ngModel)]="getcat.catId" #CategoryType="ngModel" required (change)="getAllSubCategories()">
+                        <option [ngValue]="0">Select</option>
+                        <option *ngFor="let x of allcategories" [ngValue]="x.id">{{x.product_Type}}</option>
+                    </select>
+                </div>
+                <div *ngIf="CategoryType.invalid && (CategoryType.dirty || CategoryType.touched)" >
+                    <div *ngIf="CategoryType.errors?.required" class="alert alert-danger">Please Select category</div>
+                </div>
+            </div>
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="SubCategoryType">Choose sub Category</label>
+                    <select id="SubCategoryType" class="form-control"  [(ngModel)]="insertProduct.subCategory_Id" #SubCategoryType="ngModel" required >
+                        <option [ngValue]="0">Select</option>
+                        <option *ngFor="let x of allSubcategories" [ngValue]="x.id">{{x.product_sub_Type}}</option>
+                    </select>
+                </div>
+                <div *ngIf="SubCategoryType.invalid && (SubCategoryType.dirty || SubCategoryType.touched)" >
+                    <div *ngIf="SubCategoryType.errors?.required" class="alert alert-danger">Please Select category</div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-4">
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="WareHouse">Choose WareHouse</label>
+                    <select id="WareHouse" class="form-control"  [(ngModel)]="insertProduct.warehouse_ID" #WareHouse="ngModel" required >
+                        <option [ngValue]="0">Select</option>
+                        <option *ngFor="let x of AllWareHouse" [ngValue]="x.id">{{x.warehouseName}}</option>
+                    </select>
+                </div>
+                <div *ngIf="WareHouse.invalid && (WareHouse.dirty || WareHouse.touched)" >
+                    <div *ngIf="WareHouse.value!=0" class="alert alert-danger">Please Select category</div>
+                </div>
+            </div>
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="Description"> Description</label>
+                    <input type="text" class="form-control" id="Description" required [(ngModel)]="insertProduct.description" #Description="ngModel" >
+                </div>
+            </div>
+            <div *ngIf="Description.invalid && (Description.dirty || Description.touched)" >
+                    <div *ngIf="Description.errors?.required" class="alert alert-danger">Please enter Description</div>
+            </div>
+
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="Specification"> Specification</label>
+                    <input type="text" class="form-control" id="Specification" required [(ngModel)]="insertProduct.specification" #Specification="ngModel" >
+                </div>
+            </div>
+            <div *ngIf="Specification.invalid && (Specification.dirty || Specification.touched)" >
+                    <div *ngIf="Specification.errors?.required" class="alert alert-danger">Please enter Specification</div>
+            </div>
+
+            <div *ngIf="ProductName.valid && SubCategoryType.value!=0 && WareHouse.value!=0 && Description.valid && Specification.valid && Avaliablity_Count.value!=0 && Price.value!=0 " style="align-items: center;text-align: center;">
+            <input type="submit" value="Add" class=" btn btn-success col-4" (click)="AddProduct()">
+
+            </div>            
+        </div>
+        <div class="col-4">
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="Avaliablity_Count"> Avaliablity_Count</label>
+                    <input type="number" class="form-control" id="Avaliablity_Count" required [(ngModel)]="insertProduct.avaliablity_Count" #Avaliablity_Count="ngModel" >
+                </div>
+            </div>
+            <div *ngIf="(Avaliablity_Count.dirty || Avaliablity_Count.touched)" >
+                    <div *ngIf="Avaliablity_Count.errors?.required" class="alert alert-danger">Please enter Avaliablity_Count</div>
+            </div>
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="Discount_Percentage"> Discount_Percentage</label>
+                    <input type="number" class="form-control" id="Discount_Percentage" required [(ngModel)]="insertProduct.discount_Percentage" #Discount_Percentage="ngModel" >
+                </div>
+            </div>
+            <div *ngIf="(Discount_Percentage.dirty || Discount_Percentage.touched)" >
+                    <div *ngIf="Discount_Percentage.errors?.required" class="alert alert-danger">Please enter Discount_Percentage</div>
+            </div>
+
+            <div class="form-horizontal center" style="margin-top: 20px;">
+                <div class="form-group">
+                    <label for="Price"> Price in Rupees</label>
+                    <input type="number" class="form-control" id="Price" required [(ngModel)]="insertProduct.price" #Price="ngModel" >
+                </div>
+            </div>
+            <!-- <div class="form-horizontal">
+                <div class="form-group">
+                    <input type="file" id="image" class="form-control" required [(ngModel)]="image.file" #Image="ngModel" onchange="onFileSelect($event)">
+                </div>
+            </div> -->
+            <div *ngIf="(Price.dirty || Price.touched)" >
+                    <div *ngIf="Price.errors?.required" class="alert alert-danger">Please enter Price</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isViewProduct"class="table-responsive">
+    <table class="table table-striped">
+        <tr class="text-light" style="background-color: orange;">
+            <th style="padding: 10px !important">
+                Id
+            </th>
+            <th>
+                subCategory Id
+            </th>
+            <th>
+                 Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Specification
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Avaliablity Count
+            </th>
+            <th>
+                Discount Percentage
+            </th>
+            <th>
+                warehouse ID
+            </th>
+            <th>
+                Updated By
+            </th>
+            <th>
+                isActive
+            </th>
+            <th>
+                LastUpdate 
+            </th>
+            <th>
+                Action
+            </th>
+            
+            
+            
+        </tr>
+
+        <tr *ngIf="allProducts.length==0; else hasData"  >
+            <td colspan="8" class="text-center p-3 text-danger">No data found</td>
+        </tr>
+        <ng-template #hasData>
+            <tr  *ngFor="let item of allProducts |  paginate: { itemsPerPage: count, currentPage: p }" style="margin: 10px;">
+                <td style="padding: 10px !important ">
+                    {{item.id}}
+                </td>
+                <td>
+                    {{item.subCategory_Id}}
+                </td>
+                <td>
+                    {{item.productName}}
+                </td>
+                <td>
+                    {{item.description}}
+                </td>
+                <td>
+                    {{item.specification}}
+                </td>
+                <td>
+                    {{item.price}}
+                </td>
+                <td>
+                    {{item.avaliablity_Count}}
+                </td>
+                <td>
+                    {{item.discount_Percentage}}
+                </td>
+                <td>
+                    {{item.warehouse_ID}}
+                </td>
+                <td>
+                    {{item.updated_By}}
+                </td>
+                <td *ngIf="item.isActive; else NotActive">
+                   <div>Active</div>
+                </td>
+                <ng-template #NotActive>
+                    <td>
+                        <div>Not Active</div>
+                    </td>
+                </ng-template>
+                
+                <td>
+                    {{item.lastUpdateDate | date}}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" (click)="edit(item.id)" data-toggle="modal" data-target="#editModal"><fa-icon [icon]="faEdit"></fa-icon></button>
+                        <button type="button" class="btn btn-danger" (click)="delete(item.id)" data-toggle="modal" data-target="#deleteModal" ><fa-icon [icon]="faTrash"></fa-icon></button>
+
+                    </div>
+                </td>
+                
+
+                
+            </tr>
+        </ng-template>
+           
+       
+            
+    </table>
+    <div class="text-right">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>
+
+<div *ngIf="isEdit">
+    
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Product</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="EProductName"> Product Name</label>
+                                <input type="text" class="form-control" id="EProductName" required [(ngModel)]="editProduct.productName" #EProductName="ngModel" >
+                            </div>
+                        </div>
+                        <div *ngIf="EProductName.invalid && (EProductName.dirty || EProductName.touched)" >
+                                <div *ngIf="EProductName.errors?.required" class="alert alert-danger">Please enter Product Name</div>
+                        </div>
+                        
+                        
+                    
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="WareHouse">Choose WareHouse</label>
+                                <select id="EWareHouse" class="form-control"  [(ngModel)]="editProduct.warehouse_ID" #EWareHouse="ngModel" required >
+                                    <option [ngValue]="0">Select</option>
+                                    <option *ngFor="let x of AllWareHouse" [ngValue]="x.id">{{x.warehouseName}}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="EWareHouse.invalid && (EWareHouse.dirty || EWareHouse.touched)" >
+                                <div *ngIf="EWareHouse.value!=0" class="alert alert-danger">Please Select category</div>
+                            </div>
+                        </div>
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="EDescription"> Description</label>
+                                <input type="text" class="form-control" id="EDescription" required [(ngModel)]="editProduct.description" #EDescription="ngModel" >
+                            </div>
+                        </div>
+                        <div *ngIf="EDescription.invalid && (EDescription.dirty || EDescription.touched)" >
+                                <div *ngIf="EDescription.errors?.required" class="alert alert-danger">Please enter Description</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="ESpecification"> Specification</label>
+                                <input type="text" class="form-control" id="ESpecification" required [(ngModel)]="editProduct.specification" #ESpecification="ngModel" >
+                            </div>
+                        </div>
+                        <div *ngIf="ESpecification.invalid && (ESpecification.dirty || ESpecification.touched)" >
+                                <div *ngIf="ESpecification.errors?.required" class="alert alert-danger">Please enter ESpecification</div>
+                        </div>
+            
+                                
+                    
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="EAvaliablity_Count"> Avaliablity_Count</label>
+                                <input type="number" class="form-control" id="EAvaliablity_Count" required [(ngModel)]="editProduct.avaliablity_Count" #EAvaliablity_Count="ngModel" >
+                            </div>
+                        </div>
+                        <div *ngIf="(EAvaliablity_Count.dirty || EAvaliablity_Count.touched)" >
+                                <div *ngIf="EAvaliablity_Count.errors?.required" class="alert alert-danger">Please enter Avaliablity_Count</div>
+                        </div>
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="Discount_Percentage"> Discount_Percentage</label>
+                                <input type="number" class="form-control" id="Discount_Percentage" required [(ngModel)]="editProduct.discount_Percentage" #Discount_Percentage="ngModel" >
+                            </div>
+                        </div>
+                        <div *ngIf="(Discount_Percentage.dirty || Discount_Percentage.touched)" >
+                                <div *ngIf="Discount_Percentage.errors?.required" class="alert alert-danger">Please enter Discount_Percentage</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-horizontal center" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label for="EPrice"> Price in Rupees</label>
+                                <input type="number" class="form-control" id="EPrice" required [(ngModel)]="editProduct.price" #EPrice="ngModel" >
+                            </div>
+                        </div>
+                        <div *ngIf="(EPrice.dirty || EPrice.touched)" >
+                                <div *ngIf="EPrice.errors?.required" class="alert alert-danger">Please enter Price</div>
+                        </div>
+                    </div>
+                </div>
+               
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <input *ngIf="EProductName.valid && EWareHouse.value!=0 && EDescription.valid && ESpecification.valid && EAvaliablity_Count.value!=0 && EPrice.value!=0 " type="submit" value="Save" class="center btn btn-warning " (click)="Edit()" data-dismiss="modal">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    
+
+</div>
+
